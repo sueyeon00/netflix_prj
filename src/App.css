@@ -1,38 +1,80 @@
-.App {
-  text-align: center;
+.nav-item{
+  color: white;
+  margin-right: 20px;
+  text-align: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.banner{
+  height: 400px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: left;
+  background-size: cover;
+  background-position: center;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.banner::before{
+  position:absolute;
+  left:0;
+  width:100%;
+  height: 400px;
+  content:'';
+  background: linear-gradient(to right, black, transparent);
+}
+.banner-info{
+  width:40%;
+  margin-left: 30px;
+  z-index: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card{
+  width: 260px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay{
+  opacity: 0; 
+  background: rgba(43,41,41,0.9);
+  width: 100%;
+  height: 100%;
+  color: azure;
+  overflow: hidden; /* 이 부분 추가 */
+  padding: 10px;
+}
+
+.card:hover .overlay{
+  opacity: 1;
+}
+
+.card2 {
+  width: 250px;
+  height: 400px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  border-radius: 10px;
+  color:white;
+}
+.card2::before{
+  content:'';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, black, transparent);
+  
+
+}
+
+.card2-info{
+  position: relative;
+  color:white;
+  width: 75%;
+  margin:10px;
+  z-index: 5;
 }
