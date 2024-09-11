@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import GradeIcon from '@mui/icons-material/Grade';
 import { Box, Typography } from '@mui/material';
+import useResponsive from '../useMediaQuery';
 
 const MovieCard2 = ({ item }) => {
   const navigate = useNavigate();
   const { genreList } = useSelector(state => state.movies); 
+  const { isDesktop } = useResponsive();
   
 
   const showDetail = () => {
@@ -35,7 +37,11 @@ const MovieCard2 = ({ item }) => {
             <Box sx={{display:"flex", flexDirection:"row", width:"100%", height:'25%'}}>
                 <img 
                     src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${item.poster_path}`} 
-                    style={{width:"50px", height:"80px", marginTop:"10px"}}
+                    style={{
+                      width: isDesktop ? '50px' : '37.5px', 
+                      height: isDesktop ? '80px' : '60px',
+                      marginTop: isDesktop ? '10px' : '7px',
+                    }}
                 />
                 <Box sx={{margin:'10px'}}>
                     <h1 style={{ display:"flex",fontSize: 'clamp(15px, 2vw, 20px)'}}>{item.title}</h1>
@@ -45,18 +51,23 @@ const MovieCard2 = ({ item }) => {
             <Box sx={{margin:"5px", display: 'flex', gap: '10px', flexWrap:'wrap'}}>
             {item.genre_ids.map((id) => {
                 const genre = genreList.find((item) => item.id === id);
-                return genre ? <Badge bg="danger" key={id}>{genre.name}</Badge> : null;
+                return genre ? <Badge 
+                bg="danger"
+                style={{
+                  fontSize: isDesktop ? '0.75rem' : '0.55rem',
+                  padding: isDesktop ? '2px 6px' : '1px 4px',
+                  borderRadius: '5px',
+                }} key={id}>{genre.name}</Badge> : null;
             })}
             </Box>
             <Box>
-                <Typography sx={{fontSize:"10px"}}>
+                <Typography sx={{fontSize: isDesktop ? '10px' : '7px',}}>
                     {item.overview}
                 </Typography>
             </Box>
-            <Box sx={{width:"100%"}}>
+            <Box sx={{width:"100%",fontSize: isDesktop ? '10px' : '8px'}}>
             <span><GradeIcon/> {item.vote_average}  </span>
             <span><PeopleAltIcon/>{item.popularity}</span>
-            
             </Box>
         </Box>
       </div>

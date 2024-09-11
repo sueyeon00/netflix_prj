@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import GradeIcon from '@mui/icons-material/Grade';
 
+
 const MovieCard = ({ item }) => {
   const navigate = useNavigate();
   const { genreList } = useSelector(state => state.movies); 
-  
+
 
   const showDetail = () => {
     navigate(`/movie/${item.id}`, {

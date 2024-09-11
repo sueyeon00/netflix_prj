@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, CircularProgress,Typography, Grid, Divider} from '@mui/material';
 import MovieCard2 from '../component/MovieCard2';
+import useResponsive from '../useMediaQuery';
 //Navbar에서 받아온 키워드가 속한 영화 카드를 보여주기 
 //useLocation으로 받아오기
 //url = /search?q=quary
@@ -12,7 +13,7 @@ const Search = () => {
   const query = new URLSearchParams(location.search).get('q') || '';
   const dispatch = useDispatch();
   const { loading, searchResults, error } = useSelector((state) => state.search);
-
+  const { isMobile } = useResponsive();
   useEffect(() => {
     if (query) {
       dispatch(fetchSearch(query)); // 검색어로 API 호출
@@ -24,7 +25,7 @@ const Search = () => {
 
   return (
     <Box sx={{ p: 2, backgroundColor:'black' }}>
-    <Typography sx={{color:"white", top:'10px',justifyContent:'center', display:'flex', fontSize:'xx-large'}}>
+    <Typography sx={{color:"white", top:'10px',justifyContent:'center', display:'flex', fontSize:isMobile ? 'x-large' : 'xx-large'}}>
         Search for "{query}"
     </Typography>
     <Divider sx={{ borderColor: "white", borderBottomWidth: "medium", borderStyle:'double', margin:'15px'}}/>
@@ -47,12 +48,12 @@ const Search = () => {
     {!loading && !error && (
       <Box sx={{ flexGrow: 1, p: 2 }}>
       {!loading && !error && (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{flexBasis:"30%"}}>
           {searchResults.length === 0 ? (
             <Typography>No results found.</Typography>
           ) : (
             searchResults.map((movie) => (
-              <Grid item xs={12} sm={6} md={4} key={movie.id}>
+              <Grid item xs={12} sm={6} md={4} key={movie.id} sx={{flexBasis:"30%"}} >
                 <MovieCard2 item={movie} />
               </Grid>
             ))

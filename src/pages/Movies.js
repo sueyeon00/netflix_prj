@@ -4,6 +4,7 @@ import { fetchMovies } from '../redux/actions/movieAction';
 import MovieSlide2 from '../component/MovieSlide2'
 import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Divider, TextField, MenuItem, Slider, Button} from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import useResponsive from '../useMediaQuery';
 
 const sortList = [
   {
@@ -33,6 +34,8 @@ const Movies = () => {
   const { popularMovies, topRateMovies, upComingMovies, loading } = useSelector(
       (state) => state.movies
   );
+  const { isMobile } = useResponsive();
+
   useEffect(() => {
       dispatch(fetchMovies());
   },[dispatch])
@@ -69,11 +72,11 @@ const Movies = () => {
   }
   return(
     <div style={{backgroundColor:'black'}}>
-      <Typography sx={{color:"white", top:'10px',justifyContent:'center', display:'flex', fontSize:'xx-large'}}>Movies</Typography>
+      <Typography sx={{color:"white", top:'10px',justifyContent:'center', display:'flex', fontSize: isMobile ? "x-large" : 'xx-large'}}>Movies</Typography>
       <Divider sx={{ borderColor: "white", borderBottomWidth: "medium", borderStyle:'double'}}/>
-      <Box sx={{display:'flex',flexDirection: 'row'}}>
-        <Box sx={{ display:'flex',width:'20%',height:'100%', margin:"10%", flexDirection: 'column'}}>
-          <Accordion >
+      <Box sx={{display:'flex',flexDirection: isMobile ? 'column' : 'row'}}>
+        <Box sx={{ display:'flex',width:'20%',height:'100%', margin:"10%", flexDirection: isMobile ? 'row' : 'column'}}>
+          <Accordion sx={{margin:'10px'}}>
             <AccordionSummary
               expandIcon={<ArrowDownwardIcon />}
               aria-controls="panel1-content"
@@ -100,7 +103,7 @@ const Movies = () => {
               </TextField>
             </AccordionDetails>
           </Accordion>
-          <Accordion sx={{marginTop:'20px'}} >
+          <Accordion sx={{margin:'10px'}} >
             <AccordionSummary
               expandIcon={<ArrowDownwardIcon />}
               aria-controls="panel1-content"
@@ -143,7 +146,6 @@ const Movies = () => {
               
             </AccordionDetails>
           </Accordion>
-          
         </Box>
         <Box sx={{display:'flex',width: { xs: '100%', md: '60%' }, margin:'3%'}}>
           <MovieSlide2 movies={filteredMovies}/>

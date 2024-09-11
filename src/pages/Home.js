@@ -36,7 +36,7 @@ const Home = () => {
     }
   return (
     <div style={{backgroundColor:'black', color:'white'}}>
-        <Box>
+        <Box >
             <Banner movie={popularMovies.results[0]}/>
             <h1>Popluar Movie</h1>
             <MovieSlide movies={popularMovies}/>
@@ -44,6 +44,7 @@ const Home = () => {
             <MovieSlide movies={topRateMovies}/>
             <h1>Upcoming Movie</h1>
             <MovieSlide movies={upComingMovies}/>
+            <Box sx={{width:"100%", height:"150px", color:"black"}}/>
         </Box>
     </div>
   )

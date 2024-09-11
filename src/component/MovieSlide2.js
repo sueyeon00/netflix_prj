@@ -27,7 +27,7 @@ const MovieSlide2 = ({ movies }) => {
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={3} columns={2}>
+                <Grid container spacing={3} columns={2} sx={{ padding: '10px', justifyContent: 'center' }}>
                     {currentMovies.map((item) => (
                         <Grid item xs={1} key={item.id}>
                             <MovieCard2 item={item} />

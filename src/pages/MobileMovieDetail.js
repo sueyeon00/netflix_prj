@@ -10,14 +10,14 @@ import { fetchMovieDetails } from '../redux/actions/movieDetailAction';
 import { fetchMovies } from '../redux/actions/movieAction';
 import YouTube from 'react-youtube';
 import MovieCard2 from '../component/MovieCard2';
-import useResponsive from '../useMediaQuery';
+
 
 //영화 데이터 가져오기 movie/:id
 //포스터, 장르, 제목, 평점, 관객 수, 청불여부, 줄거리, 
 //budget, revenue, release day, time
 //watch tralier 링크로 예고편 연결
 
-const MovieDetail = () => {
+const MobileMovieDetail = () => {
   const dispatch = useDispatch();
   const { state } = useLocation();
   const { id } = useParams();
@@ -25,7 +25,6 @@ const MovieDetail = () => {
   const { genreList } = useSelector(state => state.movies); 
   const [selectedButton, setSelectedButton] = useState('reviews');
   const [open, setOpen] = useState(false);
-  const { isTablet } = useResponsive();
   console.log("detail id", id)
   console.log("detail state", state)
   const clickReviewBtn = () => {
@@ -87,50 +86,52 @@ const MovieDetail = () => {
   }
   
   return (
-    <div style={{backgroundColor:'black', height: '100%', color:'white'}}>
+    <div style={{backgroundColor:'black', height: '100%', color:'white', display:'flex', flexDirection:'column'}}>
       <Box sx={{ 
         display: 'flex', 
-        flexDirection: 'row', 
+        flexDirection: 'column', 
         alignItems: 'center' ,
         marginBottom: '40px'
       }}>
-        <Box sx={{marginLeft:'10%', marginTop:'10%', marginRight:'2%'}}>
+        <Box sx={{marginLeft:'10%', marginTop:'10%', marginRight:'2%',display:'flex', flexDirection:'row'}}>
           <img 
           style={{
-            width: isTablet ? "200px": "300px",
-            height: isTablet ? "300px" : "450px"
+            width:"120px",
+            height:"180px"
           }}src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${state.poster_path}`} alt="Movie Poster" />
-        </Box>
-        <Box sx={{marginRight:'10%', marginTop:'10%', marginLeft:'2%', flexWrap: 'wrap', // 줄 바꿈 허용
-        justifyContent: isTablet ? 'center' : 'flex-start'}}>
-          <span> {state.adult ? 
-            <Avatar sx={{
-              bgcolor : deepOrange[500],
-              width:'24px', 
-              height:'24px', 
-              fontSize:'small' 
-              }}>19</Avatar>  
-              : <Avatar 
-              sx={{width:'24px', height:'24px', fontSize:'small'}}>All</Avatar> }</span>
-          <h1>{state.title}</h1>
-          
-          <div style={{margin:'10px', display: 'flex', gap: '10px', width:'100%', flexWrap:'wrap'}}>
-            {state.genre_ids.map((id) => {
-              const genre = genreList.find((state) => state.id === id);
-              return genre ? <Badge 
-              bg="danger"
-              key={id}>{genre.name}</Badge> : null;
-            })}
+          <Box sx={{display:'flex', flexDirection:'column',marginLeft:'5%' }}>
+            <span> {state.adult ? 
+              <Avatar sx={{
+                bgcolor : deepOrange[500],
+                width:'24px', 
+                height:'24px', 
+                fontSize:'small' 
+                }}>19</Avatar>  
+                : <Avatar 
+                sx={{width:'18px', height:'18px', fontSize:'x-small'}}>All</Avatar> }</span>
+            <Typography sx={{fontSize: '20px'}}>
+              {state.title}
+            </Typography>
+            <div style={{margin:'10px', display: 'flex', gap: '10px', width:'100%', flexWrap:'wrap'}}>
+              {state.genre_ids.map((id) => {
+                const genre = genreList.find((state) => state.id === id);
+                return genre ? <Badge 
+                bg="danger"
+                sx={{fontSize:'18px'}}
+                key={id}>{genre.name}</Badge> : null;
+              })}
             </div>
-        
-          
-          <p> <GradeIcon/> {state.vote_average}   <PeopleAltIcon/> {state.popularity}</p>
+            <p> <GradeIcon/> {state.vote_average}   <PeopleAltIcon/> {state.popularity}</p>
+          </Box>
+        </Box>
+        <Box sx={{marginRight:'10%', marginTop:'10%', marginLeft:'10%', flexWrap: 'wrap', // 줄 바꿈 허용
+        justifyContent:'center'}}>
           <Divider/>
-          <Typography sx={{fontSize: isTablet ? '12px' : '16px',}}>
+          <Typography sx={{fontSize: '12px'}}>
             {state.overview}
           </Typography>
           <Divider/>
-          <p> <Badge bg="danger" >Date</Badge>  {state.release_date}</p>
+          <small> <Badge bg="danger" >Date</Badge>  {state.release_date}</small>
           <Divider/>
           <Button sx={{color:'red'}} onClick={handleOpen}>Show Tralier</Button>
           <Modal
@@ -139,8 +140,8 @@ const MovieDetail = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={{position: 'absolute', width:"400px", top:"50%", left:"50%" ,transform: 'translate(-50%, -50%)'}}>
-              <YouTube videoId={videoKey}/>
+            <Box sx={{position: 'absolute',  top:"50%", left:"50%" ,transform: 'translate(-50%, -50%)'}}>
+              <YouTube videoId={videoKey} opts={{width:'250px', height:"160px"}}/>
             </Box>
 
           </Modal>
@@ -152,6 +153,7 @@ const MovieDetail = () => {
         sx={{margin :"10%", marginTop :'5%' }}>
           <Stack direction="row" spacing={3}>
               <Button 
+                fontSize='small'
                 variant={selectedButton === 'reviews' ? 'contained' : 'outlined'}
                 color='error'
                 onClick={clickReviewBtn}
@@ -159,6 +161,7 @@ const MovieDetail = () => {
                 Reviews({reviews.total_results})
               </Button>
               <Button 
+                fontSize='small'
                 variant={selectedButton === 'related' ? 'contained' : 'outlined'}
                 color='error'
                 onClick={clickRelatedBtn}>
@@ -184,8 +187,10 @@ const MovieDetail = () => {
           reviews.results.length > 0 ? (
             reviews.results.map((review) => (
               <Box key={review.id} mb={2}>
-                <h3>{review.author}</h3>
-                <p>{review.content}</p>
+                <p>{review.author}</p>
+                <Typography sx={{fontSize: '12px'}}>
+                  {review.content}
+                </Typography>
                 <Divider/>
               </Box>
             ))
@@ -197,7 +202,7 @@ const MovieDetail = () => {
           <Box display="flex" flexWrap="wrap" gap={2}>
             {recommendations.results.length > 0 ? (
               recommendations.results.map((movie) => (
-                <Box key={movie.id} mb={2} sx={{ width : 'calc(33% - 10px)' }}>
+                <Box key={movie.id} mb={1} sx={{ width: 'calc(50% - 10px)' }}>
                   <MovieCard2 item ={movie} />
                  
                 </Box>
@@ -216,4 +221,4 @@ const MovieDetail = () => {
   )
 }
 
-export default MovieDetail
+export default MobileMovieDetail

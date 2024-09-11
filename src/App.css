@@ -29,12 +29,17 @@
 }
 
 .card{
-  width: 260px;
+  width: 270px;
   height: 150px;
   background-size: cover;
   background-position: center;
 }
-
+@media (max-width: 767px) {
+  .card {
+    width: 300px;
+    height: 175px;
+  }
+}
 .overlay{
   opacity: 0; 
   background: rgba(43,41,41,0.9);
@@ -59,6 +64,20 @@
   border-radius: 10px;
   color:white;
 }
+@media (max-width: 1024px) {
+  .card2 {
+    width: 175px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 520px) {
+  .card2 {
+    width: 125px;
+    height: 200px;
+  }
+}
+
 .card2::before{
   content:'';
   position: absolute;
